@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.bolsadeideas.springboot.challenge.apirest.app.models.entity.Protagonist;
 
 @Repository
-public interface IProtagonistDao extends MongoRepository<Protagonist, String>, IProtagonistDaoCustom {
+public interface IProtagonistDao extends MongoRepository<Protagonist, String>/*, IProtagonistDaoCustom*/ {
 
 	/*
 	List<Protagonist> findByName(String name);

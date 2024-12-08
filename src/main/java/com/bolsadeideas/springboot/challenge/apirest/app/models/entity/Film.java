@@ -88,12 +88,12 @@ public class Film {
 		this.score = score;
 	}
 	
-	public Set<Protagonist> getCharacters() {
+	public Set<Protagonist> getProtagonists() {
 		return protagonists;
 	}
 
-	public void setCharacters(Set<Protagonist> characters) {
-		this.protagonists = characters;
+	public void setProtagonists(Set<Protagonist> protagonists) {
+		this.protagonists = protagonists;
 	}
 
 	@Override

@@ -7,16 +7,18 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Repository;
 
 import com.bolsadeideas.springboot.challenge.apirest.app.models.entity.Film;
 
+@Repository
 public class FilmDaoCustomImpl implements IFilmDaoCustom {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
 	
 	@Override
-	public List<Film> findFilmsByFilters(String title, String genreId, String order) {
+	public List<Film> findFilmsWithFilters(String title, String genreId, String order) {
 		
 		Criteria criteria = new Criteria();
 		
