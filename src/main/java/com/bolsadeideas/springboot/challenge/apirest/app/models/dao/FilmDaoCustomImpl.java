@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.bolsadeideas.springboot.challenge.apirest.app.models.entity.Film;
 
 @Repository
-public class FilmDaoCustomImpl implements IFilmDaoCustom {
+public class FilmDaoCustomImpl implements FilmDaoCustom {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
@@ -20,20 +20,19 @@ public class FilmDaoCustomImpl implements IFilmDaoCustom {
 	@Override
 	public List<Film> findFilmsWithFilters(String title, String genreId, String order) {
 		
-		Criteria criteria = new Criteria();
-		
-		if (title != null && !title.isEmpty()) {
-            criteria.and("title").regex(title, "i");
+		Query query = new Query();
+
+        if (title != null && !title.isEmpty()) {
+            query.addCriteria(Criteria.where("title").regex(title, "i")); // Not case sensitive
         }
-        if (genreId != null) {
-            criteria.and("genre._id").in(genreId);
+
+        if (genreId != null && !genreId.isEmpty()) {
+            query.addCriteria(Criteria.where("genres._id").is(genreId)); // Search by gender reference ID
         }
-        
-        Query query = new Query(criteria);
-        
-        if (order != null) {
+
+        if (order != null && !order.isEmpty()) {
         	if (order.equalsIgnoreCase("ASC")) {
-        		query.with(Sort.by(Sort.Direction.ASC, "created"));
+        		query.with(Sort.by(Sort.Direction.ASC, "created")); // Order by created attribute
         	}
         	if (order.equalsIgnoreCase("DESC")) {
         		query.with(Sort.by(Sort.Direction.DESC, "created"));

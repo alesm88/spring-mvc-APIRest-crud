@@ -46,7 +46,7 @@ public class ProtagonistController {
     			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         	}
         	if (protagonists.isEmpty() || protagonists == null) {
-        		response.put("message", "The protagonist: ".concat(name.concat(" do not exist in DB!")));
+        		response.put("message", "There is no protagonist in DB with those search criteria.");
     			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
         	}
         }

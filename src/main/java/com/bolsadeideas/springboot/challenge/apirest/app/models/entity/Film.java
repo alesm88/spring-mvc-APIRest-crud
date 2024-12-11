@@ -2,6 +2,7 @@ package com.bolsadeideas.springboot.challenge.apirest.app.models.entity;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import org.springframework.data.annotation.Id;
@@ -36,8 +37,12 @@ public class Film {
 	@DBRef(lazy = true)
 	private Set<Protagonist> protagonists;
 
+	@DBRef(lazy = true)
+	private Set<Genre> genres;
+	
 	public Film() {
 		protagonists = new HashSet<>();
+		genres = new HashSet<>();
 	}
 
 	public Film(String image, String title, Date created, Integer score) {
@@ -46,6 +51,7 @@ public class Film {
 		this.created = created;
 		this.score = score;
 		protagonists = new HashSet<>();
+		genres = new HashSet<>();
 	}
 
 	public String getId() {
@@ -94,6 +100,34 @@ public class Film {
 
 	public void setProtagonists(Set<Protagonist> protagonists) {
 		this.protagonists = protagonists;
+	}
+	
+	public Set<Genre> getGenres() {
+		return genres;
+	}
+
+	public void setGenres(Set<Genre> genres) {
+		this.genres = genres;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(created, genres, id, image, protagonists, score, title);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Film other = (Film) obj;
+		return Objects.equals(created, other.created) && Objects.equals(genres, other.genres)
+				&& Objects.equals(id, other.id) && Objects.equals(image, other.image)
+				&& Objects.equals(protagonists, other.protagonists) && Objects.equals(score, other.score)
+				&& Objects.equals(title, other.title);
 	}
 
 	@Override

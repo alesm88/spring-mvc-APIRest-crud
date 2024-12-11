@@ -65,7 +65,14 @@ public class ProtagonistService {
 	}
     
     public List<ProtagonistDTO> getProtagonistsWithFilters(String name, Integer age, Double weight, String filmId) {
-		return null; //protagonistDao.findProtagonistsWithFilters(name, age, weight, filmId);
+    	List<Protagonist> protagonists = protagonistDao.findProtagonistsWithFilters(name, age, weight, filmId);
+    	List<ProtagonistDTO> protagonistsDTO = protagonists.stream()
+	            .map(p -> new ProtagonistDTO(p.getId(), 
+	            						p.getImage(), 
+	            						p.getName()))
+	            .collect(Collectors.toList());
+    	
+    	return protagonistsDTO;
 	}
 
 }

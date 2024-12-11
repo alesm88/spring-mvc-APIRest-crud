@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.bolsadeideas.springboot.challenge.apirest.app.models.entity.Film;
 
 @Repository
-public interface IFilmDao extends MongoRepository<Film, String>/*, IFilmDaoCustom*/ {
+public interface IFilmDao extends MongoRepository<Film, String>, FilmDaoCustom {
 
 	
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.bolsadeideas.springboot.challenge.apirest.app.models.entity.Film;
 
-public interface IFilmDaoCustom {
+public interface FilmDaoCustom {
 
 	public List<Film> findFilmsWithFilters(String title, String genreId, String order);
 }

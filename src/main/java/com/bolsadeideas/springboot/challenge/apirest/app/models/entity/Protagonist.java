@@ -1,6 +1,7 @@
 package com.bolsadeideas.springboot.challenge.apirest.app.models.entity;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import org.springframework.data.annotation.Id;
@@ -103,6 +104,26 @@ public class Protagonist {
 
 	public void setFilms(Set<Film> films) {
 		this.films = films;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(age, films, history, id, image, name, weight);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Protagonist other = (Protagonist) obj;
+		return Objects.equals(age, other.age) && Objects.equals(films, other.films)
+				&& Objects.equals(history, other.history) && Objects.equals(id, other.id)
+				&& Objects.equals(image, other.image) && Objects.equals(name, other.name)
+				&& Objects.equals(weight, other.weight);
 	}
 
 	@Override

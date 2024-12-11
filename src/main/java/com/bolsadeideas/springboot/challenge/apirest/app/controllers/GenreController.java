@@ -42,7 +42,7 @@ public class GenreController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		if (gfDTO == null) {
-			response.put("message", "The genre ID: ".concat(id.toString().concat(" does not exist in DB!")));
+			response.put("message", "The genre ID: ".concat(id.concat(" does not exist in DB!")));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}
 		

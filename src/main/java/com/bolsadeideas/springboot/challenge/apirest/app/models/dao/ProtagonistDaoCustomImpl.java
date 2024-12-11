@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.bolsadeideas.springboot.challenge.apirest.app.models.entity.Protagonist;
 
 @Repository
-public class ProtagonistDaoCustomImpl implements IProtagonistDaoCustom {
+public class ProtagonistDaoCustomImpl implements ProtagonistDaoCustom {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
@@ -19,23 +19,24 @@ public class ProtagonistDaoCustomImpl implements IProtagonistDaoCustom {
 	@Override
 	public List<Protagonist> findProtagonistsWithFilters(String name, Integer age, Double weight, String idFilm) {
 		
-		Criteria criteria = new Criteria();
-		
-		if (name != null && !name.isEmpty()) {
-            criteria.and("name").regex(name, "i");
+		Query query = new Query();
+
+        if (name != null && !name.isEmpty()) {
+            query.addCriteria(Criteria.where("name").regex(name, "i")); // Search not case sensitive
         }
+
         if (age != null) {
-            criteria.and("age").is(age);
+            query.addCriteria(Criteria.where("age").is(age));
         }
+
         if (weight != null) {
-            criteria.and("weight").is(weight);
+            query.addCriteria(Criteria.where("weight").is(weight));
         }
-        if (idFilm != null) {
-            criteria.and("films._id").in(idFilm);
+
+        if (idFilm != null && !idFilm.isEmpty()) {
+            query.addCriteria(Criteria.where("films._id").is(idFilm)); // Comparison with the reference of Film
         }
-		
-        Query query = new Query(criteria);
-		
+
         return mongoTemplate.find(query, Protagonist.class);
 	}
 

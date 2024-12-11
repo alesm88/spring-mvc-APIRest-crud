@@ -44,7 +44,7 @@ public class FilmController {
     			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         	}
         	if (films.isEmpty() || films == null) {
-        		response.put("message", "The film: ".concat(title.concat(" do not exist in DB!")));
+        		response.put("message", "There is no film in DB with those search criteria.");
     			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
         	}
         }
@@ -96,6 +96,25 @@ public class FilmController {
 		}
 		
 		response.put("message", "The film has been created successfully!");
+		response.put("film", fpDTO);
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+	}
+    
+    @PostMapping("/{filmId}/protagonists/{protagonistId}")
+    public ResponseEntity<?> addProtagonistInFilm(@PathVariable String filmId, @PathVariable String protagonistId) { 
+    	FilmProtagonistsDTO fpDTO = null;
+		Map<String, Object> response = new HashMap<>();
+		
+		try {
+			filmService.addProtagonistToFilm(protagonistId, filmId);
+			fpDTO = filmService.getFilmWithProtagonists(filmId);
+		} catch (DataAccessException e) {
+			response.put("message", "Error adding the protagonist to the film in DB or bringing the film");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		response.put("message", "The protagonist has been added successfully into the film!");
 		response.put("film", fpDTO);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
@@ -163,6 +182,25 @@ public class FilmController {
 		response.put("message", "The film has been eliminated!");
 		response.put("film", fpDTO);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+    
+    @DeleteMapping("/{filmId}/protagonists/{protagonistId}")
+    public ResponseEntity<?> removeProtagonistInFilm(@PathVariable String filmId, @PathVariable String protagonistId) { 
+    	FilmProtagonistsDTO fpDTO = null;
+		Map<String, Object> response = new HashMap<>();
+		
+		try {
+			filmService.removeProtagonistFromFilm(protagonistId, filmId);
+			fpDTO = filmService.getFilmWithProtagonists(filmId);
+		} catch (DataAccessException e) {
+			response.put("message", "Error removing the protagonist from the film in DB or bringing the film");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		response.put("message", "The protagonist has been removed successfully from the film!");
+		response.put("film", fpDTO);
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
     
 }
